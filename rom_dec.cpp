@@ -22,11 +22,10 @@ int value(char r)
         return 500;
     case 'M':
         return 1000;
-    default:
-        return -1;
     }
  
-    return -1;
+    cout << endl << "Error" << endl;
+    exit(1);
 }
 
 int rom_to_dec(const string& str)
@@ -53,11 +52,43 @@ int rom_to_dec(const string& str)
     return res;
 }
 
+int rom_to_dec_opt(const string& str)
+{
+    int res = 0;
+    int s1 = 0;
+    int s2 = 0;
+    int i = 0;
+    int j = 0;
+   
+    for (i = 0, j = i + 1; i < str.length(); ++i, j = i + 1) {
+        s1 = value(str[i]);
+        if (j < str.length()) {
+            s2 = value(str[j]);
+            if (s1 < s2) {
+                res += (s2 - s1);
+                ++i;
+                continue;
+            }
+        }
+        res += s1;
+    }
+   
+    return res;
+}
+
+
 int main()
 {
     //string str = "CIX";
     string str = "MCMIV";
     cout << "(0) Rom is " << str << " | " << "Dec is " << rom_to_dec(str) << endl;
+    
+    string str_tmp = "IIX";
+    cout << "(1) Rom is " << str_tmp << " | " << "Dec is " << rom_to_dec_opt(str_tmp) << endl;
+    str_tmp = "MCMIV";
+    cout << "(2) Rom is " << str_tmp << " | " << "Dec is " << rom_to_dec_opt(str_tmp) << endl;
+    str_tmp = "IX";
+    cout << "(3) Rom is " << str_tmp << " | " << "Dec is " << rom_to_dec_opt(str_tmp) << endl;
 
     return 0;
 }
